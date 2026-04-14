@@ -8,4 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class cources extends Model
 {
     use HasFactory;
+    protected $table = 'cources';
+
+        public function area()
+            {
+                return $this->belongsTo(Area::class);
+            }
+
+        public function trainingCenter()
+            {
+                return $this->belongsTo(TrainingCenter::class);
+            }
+
+        public function teachers()
+            {
+                return $this->belongsToMany(Teacher::class);
+            }
+
+        public function apprentices()
+            {
+                return $this->hasMany(Apprentice::class);
+            }
 }
