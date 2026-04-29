@@ -4,18 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Course;
+use App\Models\Computer;
+
 
 class Apprentice extends Model
 {
     use HasFactory;
 
-        public function cource()
-            {
-                return $this->belongsTo(Cource::class);
+        public function course(){
+                return $this->belongsTo(Course::class);
             }
 
-        public function computer()
-            {
+        public function computer(){
                 return $this->belongsTo(Computer::class);
             }
 }

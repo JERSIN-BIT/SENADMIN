@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class cources extends Model
 {
     use HasFactory;
-    protected $table = 'cources';
 
         public function area()
             {
