@@ -9,13 +9,13 @@ class areas extends Model
 {
     use HasFactory;
 
-    public function teachers()
+    public function teacher()
         {
-            return $this->hasMany(teachers::class);
+            return $this->hasMany(Teacher::class);
         }
 
-    public function cources()
+    public function cource()
         {
-            return $this->hasMany(cources::class);
+            return $this->hasMany(Cource::class);
         }
 }

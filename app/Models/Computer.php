@@ -9,8 +9,8 @@ class computers extends Model
 {
     use HasFactory;
 
-    public function aprentices()
+    public function apprentice()
         {
-            return $this->hasMany(aprentices::class);
+            return $this->hasMany(Apprentice::class);
         }
 }

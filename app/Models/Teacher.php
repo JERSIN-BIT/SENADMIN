@@ -18,7 +18,7 @@ class teachers extends Model
                 return $this->belongsTo(TrainingCenter::class);
             }
 
-    public function courses()
+    public function course()
             {
                 return $this->belongsToMany(Course::class);
             }

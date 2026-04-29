@@ -5,19 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class aprentices extends Model
+class Apprentice extends Model
 {
     use HasFactory;
 
-    protected $table = 'aprentices';
-
         public function cource()
             {
-                return $this->belongsTo(cources::class);
+                return $this->belongsTo(Cource::class);
             }
 
         public function computer()
             {
-                return $this->belongsTo(computers::class);
+                return $this->belongsTo(Computer::class);
             }
 }
