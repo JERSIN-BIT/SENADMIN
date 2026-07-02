@@ -22,4 +22,7 @@ class teachers extends Model
             {
                 return $this->belongsToMany(Course::class);
             }
+
+            protected $fillable = ['name','email','area_id','training_center_id'];
+
 }

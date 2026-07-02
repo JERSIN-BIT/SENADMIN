@@ -18,4 +18,7 @@ class training_centers extends Model
         {
             return $this->hasMany(course::class);
         }
+
+        protected $fillable = ['name','location'];
+
 }

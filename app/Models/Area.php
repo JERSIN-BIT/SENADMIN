@@ -18,4 +18,7 @@ class areas extends Model
         {
             return $this->hasMany(Cource::class);
         }
+
+        protected $fillable = ['name'];
+
 }

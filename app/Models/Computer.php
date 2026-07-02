@@ -13,4 +13,7 @@ class computers extends Model
         {
             return $this->hasMany(Apprentice::class);
         }
+
+        protected $fillable = ['number','brand'];
+
 }
