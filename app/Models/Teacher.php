@@ -5,24 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class teachers extends Model
+class Teacher extends Model
 {
     use HasFactory;
-        public function area()
-            {
-                return $this->belongsTo(Area::class);
-            }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'course_teacher', 'teacher_id', 'course_id');
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
 
     public function trainingCenter()
-            {
-                return $this->belongsTo(TrainingCenter::class);
-            }
+    {
+        return $this->belongsTo(Training_center::class);
+    }
 
-    public function course()
-            {
-                return $this->belongsToMany(Course::class);
-            }
-
-            protected $fillable = ['name','email','area_id','training_center_id'];
-
+    protected $fillable = ['name', 'email', 'area_id', 'training_center_id'];
 }
+

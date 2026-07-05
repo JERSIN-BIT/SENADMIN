@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class areas extends Model
+class Area extends Model
 {
     use HasFactory;
 
@@ -16,7 +16,7 @@ class areas extends Model
 
     public function cource()
         {
-            return $this->hasMany(Cource::class);
+            return $this->hasMany(Course::class);
         }
 
         protected $fillable = ['name'];

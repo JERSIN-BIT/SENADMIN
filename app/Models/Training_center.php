@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class training_centers extends Model
+class Training_center extends Model
 {
     use HasFactory;
 
@@ -16,7 +16,7 @@ class training_centers extends Model
 
     public function course()
         {
-            return $this->hasMany(course::class);
+            return $this->hasMany(Course::class);
         }
 
         protected $fillable = ['name','location'];

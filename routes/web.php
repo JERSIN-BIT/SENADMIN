@@ -2,29 +2,29 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConsultaController;
-use App\Http\Controllers\ApprenticesController;
-use App\Http\Controllers\AerasController;
-use App\Http\Controllers\ComputersController;
-use App\Http\Controllers\CourcesController;
-use App\Http\Controllers\TeachersController;
-use App\Http\Controllers\TrainingCentersController;
+use App\Http\Controllers\ApprenticeController;
+use App\Http\Controllers\AreaController;
+use App\Http\Controllers\ComputerController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TrainingCenterController;
 
 
 
-Route::get('apprentices/create', [ApprenticesController::class, 'create']);
-Route::post('apprentices/store', [ApprenticesController::class, 'store'])->name('apprentices.store');
+Route::get('apprentice/create', [ApprenticeController::class, 'create']);
+Route::post('apprentice/store', [ApprenticeController::class, 'store'])->name('apprentice.store');
 
-Route::get('aeras/create', [AerasController::class, 'create']);
-Route::post('aeras/store', [AerasController::class, 'store'])->name('aeras.store');
+Route::get('area/create', [AreaController::class, 'create']);
+Route::post('area/store', [AreaController::class, 'store'])->name('area.store');
 
-Route::get('computers/create', [ComputersController::class, 'create']);
-Route::post('computers/store', [ComputersController::class, 'store'])->name('computers.store');
+Route::get('computer/create', [ComputerController::class, 'create']);
+Route::post('computer/store', [ComputerController::class, 'store'])->name('computer.store');
 
-Route::get('cource/create', [CourcesController::class, 'create']);
-Route::post('cource/store', [CourcesController::class, 'store'])->name('cource.store');
+Route::get('course/create', [CourseController::class, 'create']);
+Route::post('course/store', [CourseController::class, 'store'])->name('course.store');
 
-Route::get('teacher/create', [TeachersController::class, 'create']);
-Route::post('teacher/store', [TeachersController::class, 'store'])->name('teacher.store');
+Route::get('teacher/create', [TeacherController::class, 'create']);
+Route::post('teacher/store', [TeacherController::class, 'store'])->name('teacher.store');
 
-Route::get('trainingcenter/create', [TrainingCentersController::class, 'create']);
-Route::post('trainingcenter/store', [TrainingCentersController::class, 'store'])->name('trainingcenter.store');
+Route::get('trainingcenter/create', [TrainingCenterController::class, 'create']);
+Route::post('trainingcenter/store', [TrainingCenterController::class, 'store'])->name('trainingcenter.store');
