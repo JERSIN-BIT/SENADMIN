@@ -1,73 +1,19 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>form apprentice</title>
-</head>
-<body>
-<h1>formulario apprentice</h1>
+@extends('layouts.app')
 
-<form action="{{route('apprentice.store')}}" method="POST" enctype="multipart/form-data">
+@section('content')
 
-@csrf
+<h1>Formulario Aprendiz</h1>
 
-<label>
-    Nombre:
-    <br>
-    <input type="text" name="name">
-</label>
-<br>
-<br>
+<form action="{{ route('apprentice.store') }}" method="POST">
 
-<label>
-    Email:
-    <br>
-    <input type="text" name="email">
-</label>
-<br>
-<br>
+    @csrf
 
-<label>
-    Cell_Number:
-    <br>
-    <input type="text" name="cell_number">
-</label>
-<br>
-<br>
+    <!-- Aquí van los campos del aprendiz -->
 
-<label>selecciona un course</label>
+    <button type="submit" class="btn btn-success">
+        Enviar Formulario
+    </button>
 
-<select name="course_id" id="course_id" required>
-    <option value="">-- Seleccione un course --</option>
-    
-    @foreach($courses as $course)
-        <option value="{{ $course->id }}">{{ $course->course_number}}</option>
-    @endforeach
-</select>
-<br>
-<br>
-
-<label>selecciona un computer</label>
-
-<select name="computer_id" id="computer_id" required>
-    <option value="">-- Seleccione un cuartel --</option>
-    
-    @foreach($computers as $computer)
-        <option value="{{ $computer->id }}">{{ $computer->number}}</option>
-    @endforeach
-</select>
-<br>
-<br>
-
-
-
-
-<button type="submit">Enviar Formulario:</button>
 </form>
 
-
-
-
-</body>
-</html>
+@endsection

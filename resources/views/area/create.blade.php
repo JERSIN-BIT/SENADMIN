@@ -1,32 +1,25 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>form area</title>
-</head>
-<body>
-<h1>formulario area</h1>
+@extends('layouts.app')
 
-<form action="{{route('area.store')}}" method="POST" enctype="multipart/form-data">
+@section('content')
 
-@csrf
+<h1>Formulario Area</h1>
 
-<label>
-    Nombre Area:
-    <br>
-    <input type="text" name="name">
-</label>
-<br>
-<br>
+<form action="{{ route('area.store') }}" method="POST">
 
+    @csrf
 
+    <label>
+        Nombre Area:
+        <br>
+        <input type="text" name="name" class="form-control">
+    </label>
 
-<button type="submit">Enviar Formulario:</button>
+    <br><br>
+
+    <button type="submit" class="btn btn-success">
+        Enviar Formulario
+    </button>
+
 </form>
 
-
-
-
-</body>
-</html>
+@endsection

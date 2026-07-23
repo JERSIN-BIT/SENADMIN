@@ -8,18 +8,22 @@ use App\Models\Computer;
 
 class ComputerController extends Controller
 {
-    
-    public function create(){
+    public function index()
+    {
+        $computers = Computer::all();
+
+        return view('computer.index', compact('computers'));
+    }
+
+    public function create()
+    {
         return view('computer.create');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
+        Computer::create($request->all());
 
-    $computer = new Computer();
-
-    $computer = Computer::create($request->all());
-
-    return $computer;
+        return redirect()->route('computer.index');
     }
-
 }
