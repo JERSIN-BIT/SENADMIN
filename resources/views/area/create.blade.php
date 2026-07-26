@@ -2,21 +2,20 @@
 
 @section('content')
 
-<h1>Formulario Area</h1>
+<h1>Formulario Área</h1>
 
 <form action="{{ route('area.store') }}" method="POST">
 
     @csrf
 
-    <label>
-        Nombre Area:
-        <br>
+    <div class="mb-3">
+        <label>Nombre del Área</label>
+
         <input type="text" name="name" class="form-control">
-    </label>
 
-    <br><br>
+    </div>
 
-    <button type="submit" class="btn btn-success">
+    <button class="btn btn-success">
         Enviar Formulario
     </button>
 

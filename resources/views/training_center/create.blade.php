@@ -1,40 +1,30 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>form trainingcenter</title>
-</head>
-<body>
-<h1>formulario trainingcenter</h1>
+@extends('layouts.app')
 
-<form action="{{route('trainingcenter.store')}}" method="POST" enctype="multipart/form-data">
+@section('content')
 
-@csrf
+<h1>Formulario Centro de Formación</h1>
 
-<label>
-    Nombre:
-    <br>
-    <input type="text" name="name">
-</label>
-<br>
-<br>
+<form action="{{ route('trainingcenter.store') }}" method="POST">
+    @csrf
 
-<label>
-    Lugar:
-    <br>
-    <input type="text" name="location">
-</label>
-<br>
-<br>
+    <div class="mb-3">
+        <label>Nombre</label>
 
+        <input type="text" name="name" class="form-control">
 
+    </div>
 
+    <div class="mb-3">
+        <label>Ubicación</label>
 
-<button type="submit">Enviar Formulario:</button>
+        <input type="text" name="location" class="form-control">
+
+    </div>
+
+    <button class="btn btn-success">
+        Enviar Formulario
+    </button>
+
 </form>
 
-
-
-</body>
-</html>
+@endsection

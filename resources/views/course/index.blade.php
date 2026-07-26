@@ -8,7 +8,10 @@
     <thead class="table-success">
         <tr>
             <th>ID</th>
-            <th>Nombre</th>
+            <th>Número del Curso</th>
+            <th>Jornada</th>
+            <th>Área</th>
+            <th>Centro de Formación</th>
         </tr>
     </thead>
 
@@ -16,7 +19,10 @@
         @foreach($courses as $course)
             <tr>
                 <td>{{ $course->id }}</td>
-                <td>{{ $course->name }}</td>
+                <td>{{ $course->course_number }}</td>
+                <td>{{ $course->day }}</td>
+                <td>{{ $course->area->name }}</td>
+                <td>{{ $course->trainingCenter->name }}</td>
             </tr>
         @endforeach
     </tbody>

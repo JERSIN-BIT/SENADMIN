@@ -10,15 +10,19 @@
 
     <div class="mb-3">
         <label>Número</label>
-        <input type="text" name="number" class="form-control">
+
+        <input type="number" name="number" class="form-control">
+
     </div>
 
     <div class="mb-3">
         <label>Marca</label>
+
         <input type="text" name="brand" class="form-control">
+
     </div>
 
-    <button type="submit" class="btn btn-success">
+    <button class="btn btn-success">
         Enviar Formulario
     </button>
 

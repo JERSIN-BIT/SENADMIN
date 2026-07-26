@@ -9,22 +9,25 @@ use App\Models\Computer;
 
 class ApprenticeController extends Controller
 {
-    
-    public function create(){
+    public function index()
+    {
+        $apprentices = Apprentice::all();
 
-    $courses = Course::all();
-    $computers = Computer::all();
+        return view('apprentice.index', compact('apprentices'));
+    }
+
+    public function create()
+    {
+        $courses = Course::all();
+        $computers = Computer::all();
 
         return view('apprentice.create', compact('courses', 'computers'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
+        Apprentice::create($request->all());
 
-    $apprentice = new apprentice();
-
-    $apprentice = apprentice::create($request->all());
-
-    return $apprentice;
+        return redirect()->route('apprentice.index');
     }
 }
-

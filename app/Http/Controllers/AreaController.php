@@ -7,18 +7,22 @@ use App\Models\Area;
 
 class AreaController extends Controller
 {
-    
-    public function create(){
+    public function index()
+    {
+        $areas = Area::all();
+
+        return view('area.index', compact('areas'));
+    }
+
+    public function create()
+    {
         return view('area.create');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
+        Area::create($request->all());
 
-    $area = new Area();
-
-    $area = Area::create($request->all());
-
-    return $area;
+        return redirect()->route('area.index');
     }
-
 }

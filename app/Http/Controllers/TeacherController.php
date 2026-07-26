@@ -9,22 +9,25 @@ use App\Models\Training_center;
 
 class TeacherController extends Controller
 {
-    
+    public function index()
+    {
+        $teachers = Teacher::all();
+
+        return view('teacher.index', compact('teachers'));
+    }
+
     public function create(){
 
     $areas = Area::all();
-    $trainingcenters = Training_center::all();
+    $trainingCenters = Training_center::all();
 
-        return view('teacher.create', compact('areas', 'trainingcenters'));
+    return view('teacher.create', compact('areas', 'trainingCenters'));
+}
+
+    public function store(Request $request)
+    {
+        Teacher::create($request->all());
+
+        return redirect()->route('teacher.index');
     }
-
-    public function store(Request $request){
-
-    $teacher = new Teacher();
-
-    $teacher = Teacher::create($request->all());
-
-    return $teacher;
-    }
-
 }
