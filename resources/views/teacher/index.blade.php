@@ -9,6 +9,9 @@
         <tr>
             <th>ID</th>
             <th>Nombre</th>
+            <th>Email</th>
+            <th>Área</th>
+            <th>Centro de Formación</th>
         </tr>
     </thead>
 
@@ -17,6 +20,9 @@
             <tr>
                 <td>{{ $teacher->id }}</td>
                 <td>{{ $teacher->name }}</td>
+                <td>{{ $teacher->email }}</td>
+                <td>{{ $teacher->area->name }}</td>
+                <td>{{ $teacher->trainingCenter->name }}</td>
             </tr>
         @endforeach
     </tbody>

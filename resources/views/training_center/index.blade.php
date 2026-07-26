@@ -9,6 +9,7 @@
         <tr>
             <th>ID</th>
             <th>Nombre</th>
+            <th>Ubicación</th>
         </tr>
     </thead>
 
@@ -17,6 +18,7 @@
             <tr>
                 <td>{{ $trainingCenter->id }}</td>
                 <td>{{ $trainingCenter->name }}</td>
+                <td>{{ $trainingCenter->location }}</td>
             </tr>
         @endforeach
     </tbody>
