@@ -14,6 +14,13 @@ class ComputerController extends Controller
         return view('computer.index', compact('computers'));
     }
 
+    public function show($id)
+    {
+        $computer = Computer::findOrFail($id);
+
+        return view('computer.show', compact('computer'));
+    }
+
     public function create()
     {
         return view('computer.create');
@@ -22,6 +29,25 @@ class ComputerController extends Controller
     public function store(Request $request)
     {
         Computer::create($request->all());
+
+        return redirect()->route('computer.index');
+    }
+
+    public function edit(Computer $computer)
+    {
+        return view('computer.edit', compact('computer'));
+    }
+
+    public function update(Request $request, Computer $computer)
+    {
+        $computer->update($request->all());
+
+        return redirect()->route('computer.index');
+    }
+
+    public function destroy(Computer $computer)
+    {
+        $computer->delete();
 
         return redirect()->route('computer.index');
     }

@@ -1,25 +1,78 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="container">
 
-<h1>Lista de Áreas</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4">
 
-<table class="table table-striped table-bordered">
-    <thead class="table-success">
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-        </tr>
-    </thead>
+            <h1>LISTAR ÁREAS</h1>
 
-    <tbody>
-        @foreach($areas as $area)
-            <tr>
-                <td>{{ $area->id }}</td>
-                <td>{{ $area->name }}</td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
+            <a href="{{ route('area.create') }}" class="btn btn-success">
+                + Nueva área
+            </a>
 
+        </div>
+
+        <table class="table table-striped table-bordered">
+
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Detalle</th>
+                    <th>Actualizar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @forelse($areas as $area)
+                    <tr>
+
+                        <td>{{ $area->id }}</td>
+                        <td>{{ $area->name }}</td>
+
+                        <td>
+                            <a href="{{ route('area.show', $area->id) }}" class="btn btn-info btn-sm text-white">
+                                Mostrar
+                            </a>
+                        </td>
+
+                        <td>
+                            <a href="{{ route('area.edit', $area->id) }}" class="btn btn-warning btn-sm">
+                                Editar
+                            </a>
+                        </td>
+
+                        <td>
+                            <form action="{{ route('area.destroy', $area->id) }}" method="POST">
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button class="btn btn-danger btn-sm"
+                                    onclick="return confirm('¿Seguro que deseas eliminar esta área?')">
+                                    Eliminar
+                                </button>
+
+                            </form>
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            No hay áreas registradas.
+                        </td>
+                    </tr>
+                @endforelse
+
+            </tbody>
+
+        </table>
+
+    </div>
 @endsection

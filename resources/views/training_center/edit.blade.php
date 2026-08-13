@@ -3,17 +3,18 @@
 @section('content')
     <div class="container">
 
-        <h1>CREAR CENTRO DE FORMACIÓN</h1>
+        <h1>EDITAR CENTRO DE FORMACIÓN</h1>
 
-        <form action="{{ route('trainingcenter.store') }}" method="POST">
+        <form action="{{ route('trainingcenter.update', $trainingCenter->id) }}" method="POST">
 
             @csrf
+            @method('PUT')
 
             <div class="mb-3">
 
                 <label>Nombre</label>
 
-                <input type="text" name="name" class="form-control" required>
+                <input type="text" name="name" class="form-control" value="{{ $trainingCenter->name }}" required>
 
             </div>
 
@@ -21,12 +22,12 @@
 
                 <label>Ubicación</label>
 
-                <input type="text" name="location" class="form-control" required>
+                <input type="text" name="location" class="form-control" value="{{ $trainingCenter->location }}" required>
 
             </div>
 
             <button class="btn btn-success">
-                Guardar
+                Actualizar
             </button>
 
             <a href="{{ route('trainingcenter.index') }}" class="btn btn-secondary">

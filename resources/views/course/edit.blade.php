@@ -3,34 +3,35 @@
 @section('content')
     <div class="container">
 
-        <h1>CREAR CURSO</h1>
+        <h1>EDITAR CURSO</h1>
 
-        <form action="{{ route('course.store') }}" method="POST">
+        <form action="{{ route('course.update', $course->id) }}" method="POST">
 
             @csrf
+            @method('PUT')
 
             <div class="mb-3">
                 <label>Número del curso</label>
 
-                <input type="text" name="course_number" class="form-control" required>
+                <input type="text" name="course_number" class="form-control" value="{{ $course->course_number }}" required>
             </div>
 
             <div class="mb-3">
                 <label>Jornada</label>
 
-                <input type="text" name="day" class="form-control" required>
+                <input type="text" name="day" class="form-control" value="{{ $course->day }}" required>
             </div>
 
             <div class="mb-3">
                 <label>Área</label>
 
-                <select name="area_id" class="form-select" required>
-
-                    <option value="">Seleccione un área</option>
+                <select name="area_id" class="form-select">
 
                     @foreach ($areas as $area)
-                        <option value="{{ $area->id }}">
+                        <option value="{{ $area->id }}" {{ $course->area_id == $area->id ? 'selected' : '' }}>
+
                             {{ $area->name }}
+
                         </option>
                     @endforeach
 
@@ -40,13 +41,14 @@
             <div class="mb-3">
                 <label>Centro de formación</label>
 
-                <select name="training_center_id" class="form-select" required>
-
-                    <option value="">Seleccione un centro</option>
+                <select name="training_center_id" class="form-select">
 
                     @foreach ($training_centers as $center)
-                        <option value="{{ $center->id }}">
+                        <option value="{{ $center->id }}"
+                            {{ $course->training_center_id == $center->id ? 'selected' : '' }}>
+
                             {{ $center->name }}
+
                         </option>
                     @endforeach
 
@@ -54,7 +56,7 @@
             </div>
 
             <button class="btn btn-success">
-                Guardar
+                Actualizar
             </button>
 
             <a href="{{ route('course.index') }}" class="btn btn-secondary">

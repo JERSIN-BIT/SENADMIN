@@ -16,17 +16,46 @@ class TeacherController extends Controller
         return view('teacher.index', compact('teachers'));
     }
 
-    public function create(){
+    public function show($id)
+    {
+        $teacher = Teacher::findOrFail($id);
 
-    $areas = Area::all();
-    $trainingCenters = Training_center::all();
+        return view('teacher.show', compact('teacher'));
+    }
 
-    return view('teacher.create', compact('areas', 'trainingCenters'));
-}
+    public function create()
+    {
+        $areas = Area::all();
+        $training_centers = Training_center::all();
+
+        return view('teacher.create', compact('areas', 'training_centers'));
+    }
 
     public function store(Request $request)
     {
         Teacher::create($request->all());
+
+        return redirect()->route('teacher.index');
+    }
+
+    public function edit(Teacher $teacher)
+    {
+        $areas = Area::all();
+        $training_centers = Training_center::all();
+
+        return view('teacher.edit', compact('teacher', 'areas', 'training_centers'));
+    }
+
+    public function update(Request $request, Teacher $teacher)
+    {
+        $teacher->update($request->all());
+
+        return redirect()->route('teacher.index');
+    }
+
+    public function destroy(Teacher $teacher)
+    {
+        $teacher->delete();
 
         return redirect()->route('teacher.index');
     }
