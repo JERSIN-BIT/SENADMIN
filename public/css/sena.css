@@ -70,9 +70,75 @@ color: var(--verde-sena);
 background: var(--verde-claro);
 }
 
+.navbar-search {
+margin-left: 14px;
+width: 185px;
+}
+
+.navbar-search .form-control {
+min-width: 0;
+padding: 7px 10px;
+font-size: 13px;
+border-radius: 6px 0 0 6px;
+}
+
+.btn-search {
+background: var(--verde-sena);
+color: #fff;
+border-radius: 0 6px 6px 0;
+padding: 6px 10px;
+font-size: 20px;
+line-height: 1;
+}
+
+.btn-search:hover, .btn-login:hover { background: var(--verde-oscuro); color: #fff; }
+
+.btn-login {
+background: var(--verde-sena);
+color: #fff;
+margin-left: 9px;
+white-space: nowrap;
+font-size: 13px;
+}
+
+.dropdown-menu { border: 1px solid var(--gris-borde); box-shadow: 0 8px 20px rgba(0,0,0,.1); }
+.dropdown-item { font-size: 14px; padding: 8px 15px; }
+.dropdown-item:hover { background: var(--verde-claro); color: var(--verde-oscuro); }
+
 main {
 min-height: calc(100vh - 180px);
 }
+
+.home-hero { background: #1f5a12; }
+.hero-slide { min-height: 410px; position: relative; background-position: center; background-size: cover; }
+.hero-slide-one { background-image: url('../images/formacion-sena.png'); }
+.hero-slide-two { background-image: url('../images/comunidad-sena.png'); }
+.hero-slide-three { background-image: url('../images/recursos-sena.png'); }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(17, 45, 12, .88), rgba(17, 45, 12, .38)); }
+.hero-content { position: relative; z-index: 1; padding-top: 90px; padding-bottom: 80px; color: #fff; max-width: 1150px; }
+.hero-content h1 { color: #fff; max-width: 650px; font-size: clamp(31px, 4vw, 48px); line-height: 1.12; margin: 10px 0 15px; }
+.hero-content h1::before { display: none; }
+.hero-content p { max-width: 590px; font-size: 17px; margin-bottom: 24px; }
+.hero-kicker, .section-heading > span, .contact-strip span { color: var(--verde-sena); font-size: 12px; font-weight: 700; letter-spacing: 1.2px; }
+.carousel-indicators [data-bs-target] { width: 9px; height: 9px; border-radius: 50%; }
+
+.home-section { padding: 65px 0; background: #fff; }
+.home-section .container, .contact-strip .container { max-width: 1150px; }
+.section-heading { max-width: 710px; }
+.section-heading h2, .contact-strip h2 { font-size: 31px; font-weight: 700; margin: 7px 0 12px; }
+.section-heading p { color: #666; margin: 0; line-height: 1.65; }
+.news-section { background: var(--gris-fondo); }
+.section-heading-row { display: flex; max-width: none; justify-content: space-between; align-items: end; margin-bottom: 25px; }
+.section-heading-row h2 { margin-bottom: 0; }
+.text-link, .news-card a { color: var(--verde-oscuro); text-decoration: none; font-weight: 700; font-size: 14px; }
+.news-card { height: 100%; background: #fff; border-radius: 10px; padding: 25px; border-top: 4px solid var(--verde-sena); box-shadow: 0 4px 18px rgba(0,0,0,.06); }
+.news-date { color: var(--verde-oscuro); font-size: 11px; font-weight: 700; letter-spacing: .8px; margin-bottom: 13px; }
+.news-card h3 { font-size: 20px; line-height: 1.3; margin-bottom: 12px; }
+.news-card p { color: #707070; font-size: 14px; line-height: 1.55; }
+.contact-strip { background: #242424; color: #fff; padding: 35px 0; }
+.contact-strip .container { display: flex; justify-content: space-between; align-items: center; gap: 30px; }
+.contact-strip h2 { margin-bottom: 0; }
+.contact-strip p { margin: 0; color: #c7c7c7; max-width: 470px; }
 
 .main-content {
 padding: 40px 0;
@@ -312,6 +378,9 @@ margin-top: 5px;
 padding-top: 10px;
 padding-bottom: 10px;
 }
+
+.navbar-search { margin: 8px 0; width: 100%; }
+.btn-login { margin: 0; display: inline-block; }
 }
 
 @media (max-width: 768px) {
@@ -327,5 +396,8 @@ font-size: 25px;
 flex-direction: column;
 gap: 5px;
 }
-}
 
+.hero-slide { min-height: 380px; }
+.hero-content { padding: 70px 28px; }
+.section-heading-row, .contact-strip .container { align-items: start; flex-direction: column; }
+}

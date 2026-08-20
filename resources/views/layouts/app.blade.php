@@ -21,7 +21,7 @@
 
         <div class="container">
 
-            <a class="navbar-brand d-flex align-items-center" href="{{ route('apprentice.index') }}">
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
 
                 <img src="{{ asset('images/sena.png') }}" alt="SENA" class="sena-logo">
 
@@ -43,42 +43,40 @@
                 <ul class="navbar-nav ms-auto align-items-lg-center">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('apprentice.index') }}">
-                            Aprendices
+                        <a class="nav-link" href="{{ route('home') }}#quienes-somos">
+                            Quiénes somos
                         </a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Administración
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{ route('apprentice.index') }}">Aprendices</a></li>
+                            <li><a class="dropdown-item" href="{{ route('teacher.index') }}">Instructores</a></li>
+                            <li><a class="dropdown-item" href="{{ route('course.index') }}">Cursos</a></li>
+                            <li><a class="dropdown-item" href="{{ route('area.index') }}">Áreas</a></li>
+                            <li><a class="dropdown-item" href="{{ route('computer.index') }}">Computadores</a></li>
+                            <li><a class="dropdown-item" href="{{ route('trainingcenter.index') }}">Centros</a></li>
+                        </ul>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('teacher.index') }}">
-                            Instructores
+                        <a class="nav-link" href="{{ route('home') }}#contacto">
+                            Contáctanos
                         </a>
                     </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('course.index') }}">
-                            Cursos
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('area.index') }}">
-                            Áreas
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('computer.index') }}">
-                            Computadores
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('trainingcenter.index') }}">
-                            Centros
-                        </a>
-                    </li>
-
                 </ul>
+
+                <form class="navbar-search d-flex" role="search" action="{{ route('home') }}" method="GET">
+                    <label class="visually-hidden" for="buscador">Buscar</label>
+                    <input id="buscador" class="form-control" type="search" name="q" placeholder="Buscar">
+                    <button class="btn btn-search" type="submit" aria-label="Buscar">⌕</button>
+                </form>
+
+                <a class="btn btn-login" href="#inicio-sesion">Iniciar sesión</a>
 
             </div>
 

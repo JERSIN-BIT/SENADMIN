@@ -10,8 +10,8 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TrainingCenterController;
 
 Route::get('/', function () {
-    return redirect()->route('apprentice.index');
-});
+    return view('home');
+})->name('home');
 
 Route::get('apprentice/show/{id}', [ApprenticeController::class, 'show'])->name('apprentice.show');
 Route::get('apprentice/list', [ApprenticeController::class, 'index'])->name('apprentice.index');
