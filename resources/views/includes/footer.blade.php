@@ -1,6 +1,4 @@
-<!-- Contenido de la página de inicio, como el carrusel y otras secciones -->
 
-<!-- Footer -->
 <footer class="bg-dark text-white py-4">
     <div class="container">
         <div class="row">
