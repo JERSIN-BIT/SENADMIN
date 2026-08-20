@@ -287,7 +287,7 @@ max-width: 470px;
 /* CONTENIDO PRINCIPAL */
 
 .main-content {
-padding: 40px 0;
+padding: 55px 0 40px;
 }
 
 .main-content > .container,
@@ -596,3 +596,24 @@ align-items: start;
 flex-direction: column;
 }
 }
+
+/* Espacio superior para las páginas de administración */
+.apprentice-list {
+padding-top: 40px;
+}
+.area-list {
+padding-top: 40px;
+}
+.computer-list {
+padding-top: 40px;
+}
+.course-list {
+padding-top: 40px;
+}
+.teacher-list {
+padding-top: 40px;
+}
+.trainingcenter-list {
+padding-top: 40px;
+}
+

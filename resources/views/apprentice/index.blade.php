@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+@section('content')
 
+    <div class="container apprentice-list">
         <div class="d-flex justify-content-between align-items-center mb-4">
 
             <h1>LISTAR APRENDICES</h1>
