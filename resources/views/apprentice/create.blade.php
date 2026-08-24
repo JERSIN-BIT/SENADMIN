@@ -1,70 +1,96 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container apprentice-form">
 
-        <h1>CREAR APRENDIZ</h1>
+        <div class="page-header">
+            <div>
+                <span class="page-label">ADMINISTRACIÓN</span>
+                <h1>Nuevo aprendiz</h1>
+                <p>Registra la información del nuevo aprendiz en el sistema.</p>
+            </div>
+        </div>
 
-        <form action="{{ route('apprentice.store') }}" method="POST">
+        <div class="form-card">
 
-            @csrf
-
-            <div class="mb-3">
-                <label>Nombre</label>
-                <input type="text" name="name" class="form-control" required>
+            <div class="form-card-header">
+                <h2>Información del aprendiz</h2>
+                <span>Completa todos los campos</span>
             </div>
 
-            <div class="mb-3">
-                <label>Correo</label>
-                <input type="email" name="email" class="form-control" required>
-            </div>
+            <form action="{{ route('apprentice.store') }}" method="POST">
 
-            <div class="mb-3">
-                <label>Número de celular</label>
-                <input type="text" name="cell_number" class="form-control" required>
-            </div>
+                @csrf
 
-            <div class="mb-3">
-                <label>Curso</label>
+                <div class="form-card-body">
 
-                <select name="course_id" class="form-select" required>
+                    <div class="form-group">
+                        <label for="name">Nombre</label>
+                        <input type="text" name="name" id="name" class="form-control"
+                            placeholder="Ingrese el nombre completo" required>
+                    </div>
 
-                    <option value="">Seleccione un curso</option>
+                    <div class="form-group">
+                        <label for="email">Correo</label>
+                        <input type="email" name="email" id="email" class="form-control"
+                            placeholder="Ingrese el correo electrónico" required>
+                    </div>
 
-                    @foreach ($courses as $course)
-                        <option value="{{ $course->id }}">
-                            {{ $course->course_number }}
-                        </option>
-                    @endforeach
+                    <div class="form-group">
+                        <label for="cell_number">Número de celular</label>
+                        <input type="text" name="cell_number" id="cell_number" class="form-control"
+                            placeholder="Ingrese el número de celular" required>
+                    </div>
 
-                </select>
-            </div>
+                    <div class="form-group">
+                        <label for="course_id">Curso</label>
 
-            <div class="mb-3">
-                <label>Computador</label>
+                        <select name="course_id" id="course_id" class="form-select" required>
 
-                <select name="computer_id" class="form-select" required>
+                            <option value="">Seleccione un curso</option>
 
-                    <option value="">Seleccione un computador</option>
+                            @foreach ($courses as $course)
+                                <option value="{{ $course->id }}">
+                                    {{ $course->course_number }}
+                                </option>
+                            @endforeach
 
-                    @foreach ($computers as $computer)
-                        <option value="{{ $computer->id }}">
-                            {{ $computer->number }}
-                        </option>
-                    @endforeach
+                        </select>
+                    </div>
 
-                </select>
-            </div>
+                    <div class="form-group">
+                        <label for="computer_id">Computador</label>
 
-            <button class="btn btn-success">
-                Guardar
-            </button>
+                        <select name="computer_id" id="computer_id" class="form-select" required>
 
-            <a href="{{ route('apprentice.index') }}" class="btn btn-secondary">
-                Cancelar
-            </a>
+                            <option value="">Seleccione un computador</option>
 
-        </form>
+                            @foreach ($computers as $computer)
+                                <option value="{{ $computer->id }}">
+                                    {{ $computer->number }}
+                                </option>
+                            @endforeach
+
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-card-footer">
+
+                    <a href="{{ route('apprentice.index') }}" class="btn btn-secondary">
+                        Cancelar
+                    </a>
+
+                    <button type="submit" class="btn btn-success">
+                        Guardar aprendiz
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
 @endsection

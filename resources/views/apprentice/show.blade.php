@@ -1,32 +1,65 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container apprentice-form">
 
-        <h1>DETALLE DEL APRENDIZ</h1>
+        <div class="page-header">
+            <div>
+                <span class="page-label">ADMINISTRACIÓN</span>
+                <h1>Detalle del aprendiz</h1>
+                <p>Consulta la información registrada del aprendiz.</p>
+            </div>
+        </div>
 
-        <div class="card">
+        <div class="form-card">
 
-            <div class="card-body">
+            <div class="form-card-header">
+                <h2>Información del aprendiz</h2>
+                <span>Datos registrados en SENADMIN</span>
+            </div>
 
-                <p><strong>ID:</strong> {{ $apprentice->id }}</p>
+            <div class="details-body">
 
-                <p><strong>Nombre:</strong> {{ $apprentice->name }}</p>
+                <div class="detail-item">
+                    <span>ID</span>
+                    <strong>{{ $apprentice->id }}</strong>
+                </div>
 
-                <p><strong>Correo:</strong> {{ $apprentice->email }}</p>
+                <div class="detail-item">
+                    <span>Nombre</span>
+                    <strong>{{ $apprentice->name }}</strong>
+                </div>
 
-                <p><strong>Celular:</strong> {{ $apprentice->cell_number }}</p>
+                <div class="detail-item">
+                    <span>Correo</span>
+                    <strong>{{ $apprentice->email }}</strong>
+                </div>
 
-                <p><strong>Curso:</strong> {{ $apprentice->course_id }}</p>
+                <div class="detail-item">
+                    <span>Número de celular</span>
+                    <strong>{{ $apprentice->cell_number }}</strong>
+                </div>
 
-                <p><strong>Computador:</strong> {{ $apprentice->computer_id }}</p>
+                <div class="detail-item">
+                    <span>Curso</span>
+                    <strong>{{ $apprentice->course_id }}</strong>
+                </div>
 
-                <a href="{{ route('apprentice.edit', $apprentice->id) }}" class="btn btn-warning">
-                    Editar
-                </a>
+                <div class="detail-item">
+                    <span>Computador</span>
+                    <strong>{{ $apprentice->computer_id }}</strong>
+                </div>
+
+            </div>
+
+            <div class="form-card-footer">
 
                 <a href="{{ route('apprentice.index') }}" class="btn btn-secondary">
                     Volver
+                </a>
+
+                <a href="{{ route('apprentice.edit', $apprentice->id) }}" class="btn btn-warning">
+                    Editar aprendiz
                 </a>
 
             </div>
