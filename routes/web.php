@@ -8,10 +8,18 @@ use App\Http\Controllers\ComputerController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TrainingCenterController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+// Dashboard Administrador
+Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->middleware(['auth', 'role:admin'])->name('admin.dashboard');
+// Dashboard Aspirante
+Route::get('/aspirante/dashboard', [DashboardController::class, 'aspirante'])->middleware(['auth', 'role:aspirante'])->name('aspirante.dashboard');
+// Dashboard Aprendiz
+Route::get('/aprendiz/dashboard', [DashboardController::class, 'aprendiz'])->middleware(['auth', 'role:aprendiz'])->name('aprendiz.dashboard');
 
 Route::get('apprentice/show/{id}', [ApprenticeController::class, 'show'])->name('apprentice.show');
 Route::get('apprentice/list', [ApprenticeController::class, 'index'])->name('apprentice.index');

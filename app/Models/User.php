@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,28 +12,21 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Los campos que se pueden llenar.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['name', 'email', 'password', 'role'];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Los campos ocultos.
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
     /**
-     * The attributes that should be cast.
+     * Los campos y sus tipos.
      *
      * @var array<string, string>
      */
@@ -42,5 +34,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    
+
+    // Verificar si el usuario es administrador
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    // Verificar si el usuario es aspirante
+    public function isAspirante()
+    {
+        return $this->role === 'aspirante';
+    }
+
+    // Verificar si el usuario es aprendiz
+    public function isAprendiz()
+    {
+        return $this->role === 'aprendiz';
+    }
 }
