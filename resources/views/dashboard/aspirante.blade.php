@@ -1,58 +1,34 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container py-5">
-
-        <div class="mb-4">
-            <h1>Panel de Aspirante</h1>
-
-            <p class="text-muted">
-                Bienvenido, {{ auth()->user()->name }}
-            </p>
+    <div class="container dashboard-shell">
+        <div class="dashboard-intro">
+            <div>
+                <span class="eyebrow">Portal del aspirante</span>
+                <h1>Encuentra tu próxima formación</h1>
+                <p>Hola, {{ auth()->user()->name }}. Explora la oferta disponible en nuestros centros.</p>
+            </div>
+            <a href="{{ route('course.index') }}" class="btn btn-success">Ver toda la oferta</a>
         </div>
 
-        <div class="row g-4">
-
-            <div class="col-md-4">
-                <div class="card shadow-sm h-100">
-                    <div class="card-body">
-                        <h4>Mi perfil</h4>
-                        <p>Consulta y actualiza tus datos personales.</p>
-
-                        <button class="btn btn-success">
-                            Ver perfil
-                        </button>
-                    </div>
-                </div>
+        <section class="dashboard-section">
+            <div class="section-heading-row">
+                <div><span class="eyebrow">Oferta vigente</span><h2>Formaciones disponibles</h2></div>
+                <span class="course-count">{{ $courses->count() }} programas</span>
             </div>
-
-            <div class="col-md-4">
-                <div class="card shadow-sm h-100">
-                    <div class="card-body">
-                        <h4>Programas disponibles</h4>
-                        <p>Consulta los programas de formación disponibles.</p>
-
-                        <button class="btn btn-success">
-                            Ver programas
-                        </button>
-                    </div>
-                </div>
+            <div class="course-grid">
+                @forelse ($courses as $course)
+                    <article class="course-card">
+                        <span class="course-tag">Programa SENA</span>
+                        <h3>{{ $course->course_number }}</h3>
+                        <p><strong>Jornada:</strong> {{ $course->day }}</p>
+                        <p>{{ $course->area->name ?? 'Área por definir' }} · {{ $course->trainingCenter->name ?? 'Centro por definir' }}</p>
+                        <a href="{{ route('course.show', $course->id) }}" class="text-link">Consultar formación →</a>
+                    </article>
+                @empty
+                    <div class="empty-state">Aún no hay formaciones publicadas. Vuelve pronto para consultar la oferta.</div>
+                @endforelse
             </div>
-
-            <div class="col-md-4">
-                <div class="card shadow-sm h-100">
-                    <div class="card-body">
-                        <h4>Mis solicitudes</h4>
-                        <p>Consulta el estado de tus solicitudes.</p>
-
-                        <button class="btn btn-success">
-                            Ver solicitudes
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
+        </section>
     </div>
 @endsection

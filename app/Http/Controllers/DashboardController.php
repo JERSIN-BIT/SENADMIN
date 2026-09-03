@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Course;
 
 class DashboardController extends Controller
 {
@@ -13,11 +13,15 @@ class DashboardController extends Controller
 
     public function aspirante()
     {
-        return view('dashboard.aspirante');
+        $courses = Course::with(['area', 'trainingCenter'])->latest()->get();
+
+        return view('dashboard.aspirante', compact('courses'));
     }
 
     public function aprendiz()
     {
-        return view('dashboard.aprendiz');
+        $courses = Course::with(['area', 'trainingCenter'])->latest()->get();
+
+        return view('dashboard.aprendiz', compact('courses'));
     }
 }

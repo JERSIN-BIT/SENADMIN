@@ -18,128 +18,48 @@
 <body>
 
     <nav class="navbar navbar-sena">
-
         <div class="container">
-
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-
                 <img src="{{ asset('images/sena.png') }}" alt="Logo SENA" class="sena-logo">
-
                 <div class="brand-info">
-
-                    <div class="brand-title">
-                        SENADMIN
-                    </div>
-
-                    <div class="brand-subtitle">
-                        Sistema Administrativo SENA
-                    </div>
-
+                    <div class="brand-title">SENADMIN</div>
+                    <div class="brand-subtitle">Sistema Administrativo SENA</div>
                 </div>
-
             </a>
-
             <div class="navbar-menu">
-
                 <ul class="navbar-nav">
-
-                    <li class="nav-item">
-
-                        <a class="nav-link" href="{{ route('home') }}">
-                            Inicio
-                        </a>
-
-                    </li>
-
-                    <li class="nav-item">
-
-                        <a class="nav-link" href="{{ route('home') }}#quienes-somos">
-                            Quiénes somos
-                        </a>
-
-                    </li>
-
-                    <li class="nav-item dropdown">
-
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Administración
-                        </a>
-
-                        <ul class="dropdown-menu">
-
-                            <li>
-                                <a class="dropdown-item" href="{{ route('apprentice.index') }}">
-                                    Aprendices
-                                </a>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Inicio</a></li>
+                    @auth
+                        @if (auth()->user()->isAdmin())
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Administración</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('apprentice.index') }}">Aprendices</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('teacher.index') }}">Instructores</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('course.index') }}">Formaciones</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('area.index') }}">Áreas</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('computer.index') }}">Computadores</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('trainingcenter.index') }}">Centros de formación</a></li>
+                                </ul>
                             </li>
-
-                            <li>
-                                <a class="dropdown-item" href="{{ route('teacher.index') }}">
-                                    Instructores
-                                </a>
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item" href="{{ route('course.index') }}">
-                                    Cursos
-                                </a>
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item" href="{{ route('area.index') }}">
-                                    Áreas
-                                </a>
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item" href="{{ route('computer.index') }}">
-                                    Computadores
-                                </a>
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item" href="{{ route('trainingcenter.index') }}">
-                                    Centros de formación
-                                </a>
-                            </li>
-
-                        </ul>
-
-                    </li>
-
-                    <li class="nav-item">
-
-                        <a class="nav-link" href="{{ route('home') }}#contacto">
-                            Contáctanos
-                        </a>
-
-                    </li>
-
+                        @else
+                            <li class="nav-item"><a class="nav-link" href="{{ route('course.index') }}">Formaciones</a></li>
+                        @endif
+                    @endauth
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#contacto">Contáctanos</a></li>
                 </ul>
-
-                <form class="navbar-search" role="search" action="{{ route('home') }}" method="GET">
-
-                    <label class="visually-hidden" for="buscador">
-                        Buscar
-                    </label>
-
-                    <input id="buscador" class="form-control" type="search" name="q" placeholder="Buscar...">
-
-                    <button class="btn btn-search" type="submit">
-                        Buscar
-                    </button>
-
-                </form>
-
-                <a class="btn btn-login" href="#inicio-sesion">
-                    Iniciar sesión
-                </a>
-
+                @guest
+                    <a class="btn btn-login" href="{{ route('login') }}">Iniciar sesión</a>
+                    <a class="btn btn-outline-sena" href="{{ route('register') }}">Registrarme</a>
+                @else
+                    <span class="user-chip">{{ ucfirst(auth()->user()->role) }}</span>
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button class="btn btn-login" type="submit">Cerrar sesión</button>
+                    </form>
+                @endguest
             </div>
-
         </div>
-
     </nav>
 
     <main>

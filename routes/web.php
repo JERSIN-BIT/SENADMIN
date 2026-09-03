@@ -9,18 +9,46 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TrainingCenterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
+    if (auth()->check()) {
+        return match (auth()->user()->role) {
+            'admin' => redirect()->route('admin.dashboard'),
+            'aprendiz' => redirect()->route('aprendiz.dashboard'),
+            default => redirect()->route('aspirante.dashboard'),
+        };
+    }
+
     return view('home');
 })->name('home');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Dashboard Administrador
-Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->middleware(['auth', 'role:admin'])->name('admin.dashboard');
+Route::get('/admin/dashboard', [DashboardController::class, 'admin'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.dashboard');
 // Dashboard Aspirante
-Route::get('/aspirante/dashboard', [DashboardController::class, 'aspirante'])->middleware(['auth', 'role:aspirante'])->name('aspirante.dashboard');
+Route::get('/aspirante/dashboard', [DashboardController::class, 'aspirante'])
+    ->middleware(['auth', 'role:aspirante'])
+    ->name('aspirante.dashboard');
 // Dashboard Aprendiz
-Route::get('/aprendiz/dashboard', [DashboardController::class, 'aprendiz'])->middleware(['auth', 'role:aprendiz'])->name('aprendiz.dashboard');
+Route::get('/aprendiz/dashboard', [DashboardController::class, 'aprendiz'])
+    ->middleware(['auth', 'role:aprendiz'])
+    ->name('aprendiz.dashboard');
 
+Route::middleware(['auth', 'role:admin,aprendiz,aspirante'])->group(function () {
+    Route::get('course/list', [CourseController::class, 'index'])->name('course.index');
+    Route::get('course/show/{id}', [CourseController::class, 'show'])->name('course.show');
+});
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::get('apprentice/show/{id}', [ApprenticeController::class, 'show'])->name('apprentice.show');
 Route::get('apprentice/list', [ApprenticeController::class, 'index'])->name('apprentice.index');
 Route::get('apprentice/create', [ApprenticeController::class, 'create'])->name('apprentice.create');
@@ -45,8 +73,6 @@ Route::get('computer/{computer}/edit', [ComputerController::class, 'edit'])->nam
 Route::put('computer/{computer}', [ComputerController::class, 'update'])->name('computer.update');
 Route::delete('computer/{computer}', [ComputerController::class, 'destroy'])->name('computer.destroy');
 
-Route::get('course/show/{id}', [CourseController::class, 'show'])->name('course.show');
-Route::get('course/list', [CourseController::class, 'index'])->name('course.index');
 Route::get('course/create', [CourseController::class, 'create'])->name('course.create');
 Route::post('course/store', [CourseController::class, 'store'])->name('course.store');
 Route::get('course/{course}/edit', [CourseController::class, 'edit'])->name('course.edit');
@@ -68,3 +94,5 @@ Route::post('training_center/store', [TrainingCenterController::class, 'store'])
 Route::get('training_center/{trainingCenter}/edit', [TrainingCenterController::class, 'edit'])->name('trainingcenter.edit');
 Route::put('training_center/{trainingCenter}', [TrainingCenterController::class, 'update'])->name('trainingcenter.update');
 Route::delete('training_center/{trainingCenter}', [TrainingCenterController::class, 'destroy'])->name('trainingcenter.destroy');
+
+});

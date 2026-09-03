@@ -3,21 +3,23 @@
 @section('content')
     <div class="container">
 
-        <h1>DETALLE DEL CURSO</h1>
+        <span class="eyebrow">Oferta formativa</span>
+        <h1>Detalle de la formación</h1>
 
         <div class="card">
 
             <div class="card-body">
 
-                <p><strong>ID:</strong> {{ $course->id }}</p>
-                <p><strong>Número:</strong> {{ $course->course_number }}</p>
+                <p><strong>Programa:</strong> {{ $course->course_number }}</p>
                 <p><strong>Jornada:</strong> {{ $course->day }}</p>
-                <p><strong>Área:</strong> {{ $course->area_id }}</p>
-                <p><strong>Centro:</strong> {{ $course->training_center_id }}</p>
+                <p><strong>Área:</strong> {{ $course->area->name ?? 'Sin área' }}</p>
+                <p><strong>Centro:</strong> {{ $course->trainingCenter->name ?? 'Sin centro' }}</p>
 
-                <a href="{{ route('course.edit', $course->id) }}" class="btn btn-warning">
-                    Editar
-                </a>
+                @auth
+                    @if (auth()->user()->isAdmin())
+                        <a href="{{ route('course.edit', $course->id) }}" class="btn btn-warning">Editar</a>
+                    @endif
+                @endauth
 
                 <a href="{{ route('course.index') }}" class="btn btn-secondary">
                     Volver

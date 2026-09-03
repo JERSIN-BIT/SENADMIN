@@ -5,11 +5,16 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4">
 
-            <h1>LISTAR CURSOS</h1>
+            <div>
+                <span class="eyebrow">Oferta formativa</span>
+                <h1>Formaciones disponibles</h1>
+            </div>
 
-            <a href="{{ route('course.create') }}" class="btn btn-success">
-                + Nuevo curso
-            </a>
+            @auth
+                @if (auth()->user()->isAdmin())
+                    <a href="{{ route('course.create') }}" class="btn btn-success">+ Nueva formación</a>
+                @endif
+            @endauth
 
         </div>
 
@@ -17,14 +22,14 @@
 
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Número del curso</th>
+                    <th>Programa</th>
                     <th>Jornada</th>
                     <th>Área</th>
-                    <th>Centro</th>
+                    <th>Centro de formación</th>
                     <th>Detalle</th>
-                    <th>Actualizar</th>
-                    <th>Eliminar</th>
+                    @if (auth()->user()->isAdmin())
+                        <th>Acciones</th>
+                    @endif
                 </tr>
             </thead>
 
@@ -33,11 +38,10 @@
                 @forelse($courses as $course)
                     <tr>
 
-                        <td>{{ $course->id }}</td>
                         <td>{{ $course->course_number }}</td>
                         <td>{{ $course->day }}</td>
-                        <td>{{ $course->area_id }}</td>
-                        <td>{{ $course->training_center_id }}</td>
+                        <td>{{ $course->area->name ?? 'Sin área' }}</td>
+                        <td>{{ $course->trainingCenter->name ?? 'Sin centro' }}</td>
 
                         <td>
                             <a href="{{ route('course.show', $course->id) }}" class="btn btn-info btn-sm text-white">
@@ -45,32 +49,23 @@
                             </a>
                         </td>
 
-                        <td>
-                            <a href="{{ route('course.edit', $course->id) }}" class="btn btn-warning btn-sm">
-                                Editar
-                            </a>
-                        </td>
-
-                        <td>
-                            <form action="{{ route('course.destroy', $course->id) }}" method="POST">
-
-                                @csrf
-                                @method('DELETE')
-
-                                <button class="btn btn-danger btn-sm"
-                                    onclick="return confirm('¿Seguro que deseas eliminar este curso?')">
-                                    Eliminar
-                                </button>
-
-                            </form>
-                        </td>
+                        @if (auth()->user()->isAdmin())
+                            <td>
+                                <a href="{{ route('course.edit', $course->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                                <form class="d-inline" action="{{ route('course.destroy', $course->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta formación?')">Eliminar</button>
+                                </form>
+                            </td>
+                        @endif
 
                     </tr>
 
                 @empty
 
                     <tr>
-                        <td colspan="8" class="text-center">
+                        <td colspan="{{ auth()->user()->isAdmin() ? 6 : 5 }}" class="text-center">
                             No hay cursos registrados.
                         </td>
                     </tr>
