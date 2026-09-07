@@ -33,7 +33,18 @@ class CourseController extends Controller
 
     public function store(Request $request)
     {
-        Course::create($request->all());
+        $data = $request->validate([
+            'course_number' => 'required|string|max:255',
+            'day' => 'required|string|max:255',
+            'area_id' => 'required|exists:areas,id',
+            'training_center_id' => 'required|exists:training_centers,id',
+            'availability_status' => 'required|in:disponible,en curso',
+            'duration' => 'required|string|max:255',
+            'description' => 'required|string',
+            'subjects' => 'required|string',
+        ]);
+
+        Course::create($data);
 
         return redirect()->route('course.index');
     }
@@ -48,7 +59,18 @@ class CourseController extends Controller
 
     public function update(Request $request, Course $course)
     {
-        $course->update($request->all());
+        $data = $request->validate([
+            'course_number' => 'required|string|max:255',
+            'day' => 'required|string|max:255',
+            'area_id' => 'required|exists:areas,id',
+            'training_center_id' => 'required|exists:training_centers,id',
+            'availability_status' => 'required|in:disponible,en curso',
+            'duration' => 'required|string|max:255',
+            'description' => 'required|string',
+            'subjects' => 'required|string',
+        ]);
+
+        $course->update($data);
 
         return redirect()->route('course.index');
     }

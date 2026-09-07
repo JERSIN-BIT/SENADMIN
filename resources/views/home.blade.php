@@ -67,6 +67,42 @@
         </div>
     </section>
 
+    <section id="formaciones" class="home-section formations-section">
+        <div class="container">
+            <div class="section-heading section-heading-row">
+                <div>
+                    <span>OFERTA DEL SENA</span>
+                    <h2>Formaciones disponibles</h2>
+                    <p>Explora los programas, su duración, estado y contenido académico.</p>
+                </div>
+
+                <a href="{{ route('course.index') }}" class="btn btn-success">Ver todas</a>
+            </div>
+
+            <div class="row g-4">
+                @forelse ($courses->take(6) as $course)
+                    <div class="col-md-6 col-lg-4">
+                        <a href="{{ route('course.show', $course->id) }}" class="formation-card">
+                            <div class="formation-card-top">
+                                <span class="course-status {{ $course->availability_status === 'disponible' ? 'is-available' : 'is-started' }}">
+                                    {{ $course->availability_status === 'disponible' ? 'Disponible' : 'Ya comenzó' }}
+                                </span>
+                                <span class="formation-duration">{{ $course->duration }}</span>
+                            </div>
+                            <h3>{{ $course->course_number }}</h3>
+                            <p>{{ Str::limit($course->description ?: 'Conoce esta formación del SENA.', 115) }}</p>
+                            <span class="formation-link">Ver información completa</span>
+                        </a>
+                    </div>
+                @empty
+                    <div class="col-12">
+                        <div class="empty-state">Aún no hay formaciones publicadas.</div>
+                    </div>
+                @endforelse
+            </div>
+        </div>
+    </section>
+
     <section id="quienes-somos" class="home-section about-section">
 
         <div class="container">
@@ -295,6 +331,4 @@
 
     </section>
 
-    <section id="inicio-sesion" class="visually-hidden" aria-label="Inicio de sesión">
-    </section>
 @endsection

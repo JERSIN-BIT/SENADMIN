@@ -20,26 +20,31 @@ class ExampleTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_a_registered_user_is_redirected_to_the_selected_role_dashboard(): void
+    public function test_a_registered_user_is_redirected_to_the_admin_dashboard(): void
     {
         $response = $this->post('/register', [
-            'name' => 'Aprendiz Demo',
-            'email' => 'aprendiz@example.com',
+            'name' => 'Administrador Demo',
+            'email' => 'admin@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
-            'role' => 'aprendiz',
         ]);
 
-        $response->assertRedirect(route('aprendiz.dashboard'));
-        $this->assertAuthenticatedAs(User::where('email', 'aprendiz@example.com')->first());
+        $response->assertRedirect(route('admin.dashboard'));
+        $this->assertAuthenticatedAs(User::where('email', 'admin@example.com')->first());
     }
 
-    public function test_non_admin_users_cannot_access_administration_routes(): void
+    public function test_authenticated_users_can_access_administration_routes(): void
     {
-        $user = User::factory()->create(['role' => 'aspirante']);
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->get(route('apprentice.index'))
-            ->assertForbidden();
+            ->assertOk();
+    }
+
+    public function test_formations_are_publicly_visible(): void
+    {
+        $this->get(route('course.index'))
+            ->assertOk();
     }
 }

@@ -11,9 +11,7 @@
             </div>
 
             @auth
-                @if (auth()->user()->isAdmin())
-                    <a href="{{ route('course.create') }}" class="btn btn-success">+ Nueva formación</a>
-                @endif
+                <a href="{{ route('course.create') }}" class="btn btn-success">+ Nueva formación</a>
             @endauth
 
         </div>
@@ -27,9 +25,9 @@
                     <th>Área</th>
                     <th>Centro de formación</th>
                     <th>Detalle</th>
-                    @if (auth()->user()->isAdmin())
+                    @auth
                         <th>Acciones</th>
-                    @endif
+                    @endauth
                 </tr>
             </thead>
 
@@ -49,7 +47,7 @@
                             </a>
                         </td>
 
-                        @if (auth()->user()->isAdmin())
+                        @auth
                             <td>
                                 <a href="{{ route('course.edit', $course->id) }}" class="btn btn-warning btn-sm">Editar</a>
                                 <form class="d-inline" action="{{ route('course.destroy', $course->id) }}" method="POST">
@@ -58,14 +56,14 @@
                                     <button class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta formación?')">Eliminar</button>
                                 </form>
                             </td>
-                        @endif
+                        @endauth
 
                     </tr>
 
                 @empty
 
                     <tr>
-                        <td colspan="{{ auth()->user()->isAdmin() ? 6 : 5 }}" class="text-center">
+                        <td colspan="{{ auth()->check() ? 6 : 5 }}" class="text-center">
                             No hay cursos registrados.
                         </td>
                     </tr>

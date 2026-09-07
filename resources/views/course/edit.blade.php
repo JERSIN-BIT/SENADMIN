@@ -55,6 +55,31 @@
                 </select>
             </div>
 
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Estado de la formación</label>
+                    <select name="availability_status" class="form-select" required>
+                        <option value="disponible" {{ $course->availability_status === 'disponible' ? 'selected' : '' }}>Disponible</option>
+                        <option value="en curso" {{ $course->availability_status === 'en curso' ? 'selected' : '' }}>Ya comenzó</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Duración</label>
+                    <input type="text" name="duration" class="form-control" value="{{ $course->duration }}" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>¿De qué trata?</label>
+                <textarea name="description" class="form-control" rows="4" required>{{ $course->description }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Materias o competencias</label>
+                <textarea name="subjects" class="form-control" rows="4" required>{{ $course->subjects }}</textarea>
+            </div>
+
             <button class="btn btn-success">
                 Actualizar
             </button>

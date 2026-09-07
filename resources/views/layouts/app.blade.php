@@ -28,31 +28,29 @@
             </a>
             <div class="navbar-menu">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Inicio</a></li>
-                    @auth
-                        @if (auth()->user()->isAdmin())
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Administración</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{{ route('apprentice.index') }}">Aprendices</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('teacher.index') }}">Instructores</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('course.index') }}">Formaciones</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('area.index') }}">Áreas</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('computer.index') }}">Computadores</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('trainingcenter.index') }}">Centros de formación</a></li>
-                                </ul>
-                            </li>
-                        @else
-                            <li class="nav-item"><a class="nav-link" href="{{ route('course.index') }}">Formaciones</a></li>
-                        @endif
-                    @endauth
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#contacto">Contáctanos</a></li>
+                    @guest
+                        <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('course.index') }}">Formaciones disponibles</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#contacto">Contáctanos</a></li>
+                    @else
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Administración</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('apprentice.index') }}">Aprendices</a></li>
+                                <li><a class="dropdown-item" href="{{ route('teacher.index') }}">Instructores</a></li>
+                                <li><a class="dropdown-item" href="{{ route('course.index') }}">Formaciones</a></li>
+                                <li><a class="dropdown-item" href="{{ route('area.index') }}">Áreas</a></li>
+                                <li><a class="dropdown-item" href="{{ route('computer.index') }}">Computadores</a></li>
+                                <li><a class="dropdown-item" href="{{ route('trainingcenter.index') }}">Centros de formación</a></li>
+                            </ul>
+                        </li>
+                    @endguest
                 </ul>
                 @guest
                     <a class="btn btn-login" href="{{ route('login') }}">Iniciar sesión</a>
                     <a class="btn btn-outline-sena" href="{{ route('register') }}">Registrarme</a>
                 @else
-                    <span class="user-chip">{{ ucfirst(auth()->user()->role) }}</span>
+                    <span class="user-chip">Administrador</span>
                     <form action="{{ route('logout') }}" method="POST" class="d-inline">
                         @csrf
                         <button class="btn btn-login" type="submit">Cerrar sesión</button>
@@ -99,17 +97,11 @@
                         Información
                     </h5>
 
-                    <a href="{{ route('home') }}">
-                        Inicio
-                    </a>
-
-                    <a href="{{ route('home') }}#quienes-somos">
-                        Quiénes somos
-                    </a>
-
-                    <a href="{{ route('home') }}#contacto">
-                        Contáctanos
-                    </a>
+                    @guest
+                        <a href="{{ route('home') }}">Inicio</a>
+                        <a href="{{ route('home') }}#quienes-somos">Quiénes somos</a>
+                        <a href="{{ route('home') }}#contacto">Contáctanos</a>
+                    @endguest
 
                 </div>
 

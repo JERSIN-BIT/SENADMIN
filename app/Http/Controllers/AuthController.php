@@ -20,19 +20,17 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed',
-            'role' => 'required|in:aspirante,aprendiz,admin',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
         ]);
 
         Auth::login($user);
 
-        return $this->redirectByRole($user->role);
+        return redirect()->route('admin.dashboard');
     }
 
     public function showLogin()
@@ -50,7 +48,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return $this->redirectByRole(auth()->user()->role);
+            return redirect()->route('admin.dashboard');
         }
 
         return back()->withErrors([
@@ -68,12 +66,4 @@ class AuthController extends Controller
         return redirect()->route('home');
     }
 
-    private function redirectByRole(string $role)
-    {
-        return match ($role) {
-            'admin' => redirect()->route('admin.dashboard'),
-            'aprendiz' => redirect()->route('aprendiz.dashboard'),
-            default => redirect()->route('aspirante.dashboard'),
-        };
-    }
 }

@@ -29,5 +29,14 @@ class Course extends Model
                 return $this->hasMany(Apprentice::class);
             }
 
-            protected $fillable = ['course_number','day','area_id','training_center_id'];
+            protected $fillable = [
+                'course_number',
+                'day',
+                'area_id',
+                'training_center_id',
+                'availability_status',
+                'duration',
+                'description',
+                'subjects',
+            ];
 }
