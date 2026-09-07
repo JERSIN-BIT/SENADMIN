@@ -24,6 +24,12 @@
                 <p><strong>Área:</strong> {{ $course->area->name ?? 'Sin área' }}</p>
                 <p><strong>Centro:</strong> {{ $course->trainingCenter->name ?? 'Sin centro' }}</p>
 
+                @if ($course->image)
+                    <img src="{{ asset('storage/' . $course->image) }}" alt="Imagen de {{ $course->course_number }}" class="img-fluid mb-3" style="max-width: 500px;">
+                @else
+                    <p>Sin imagen</p>
+                @endif
+
                 <hr>
 
                 <h3>¿De qué trata?</h3>

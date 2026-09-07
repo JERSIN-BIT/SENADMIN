@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Course;
 use App\Models\Area;
 use App\Models\Training_center;
@@ -42,7 +43,12 @@ class CourseController extends Controller
             'duration' => 'required|string|max:255',
             'description' => 'required|string',
             'subjects' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('courses', 'public');
+        }
 
         Course::create($data);
 
@@ -68,7 +74,18 @@ class CourseController extends Controller
             'duration' => 'required|string|max:255',
             'description' => 'required|string',
             'subjects' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
+
+        if ($request->hasFile('image')) {
+            if ($course->image) {
+                Storage::disk('public')->delete($course->image);
+            }
+
+            $data['image'] = $request->file('image')->store('courses', 'public');
+        } else {
+            unset($data['image']);
+        }
 
         $course->update($data);
 
@@ -77,6 +94,10 @@ class CourseController extends Controller
 
     public function destroy(Course $course)
     {
+        if ($course->image) {
+            Storage::disk('public')->delete($course->image);
+        }
+
         $course->delete();
 
         return redirect()->route('course.index');

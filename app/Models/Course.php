@@ -38,5 +38,6 @@ class Course extends Model
                 'duration',
                 'description',
                 'subjects',
+                'image',
             ];
 }

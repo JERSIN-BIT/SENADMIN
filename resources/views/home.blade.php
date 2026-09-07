@@ -89,6 +89,9 @@
                                 </span>
                                 <span class="formation-duration">{{ $course->duration }}</span>
                             </div>
+                            @if ($course->image)
+                                <img src="{{ asset('storage/' . $course->image) }}" alt="Imagen de {{ $course->course_number }}" class="img-fluid mb-3">
+                            @endif
                             <h3>{{ $course->course_number }}</h3>
                             <p>{{ Str::limit($course->description ?: 'Conoce esta formación del SENA.', 115) }}</p>
                             <span class="formation-link">Ver información completa</span>

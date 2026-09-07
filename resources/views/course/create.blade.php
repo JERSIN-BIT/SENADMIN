@@ -5,7 +5,7 @@
 
         <h1>CREAR CURSO</h1>
 
-        <form action="{{ route('course.store') }}" method="POST">
+        <form action="{{ route('course.store') }}" method="POST" enctype="multipart/form-data">
 
             @csrf
 
@@ -76,6 +76,11 @@
             <div class="mb-3">
                 <label>Materias o competencias</label>
                 <textarea name="subjects" class="form-control" rows="4" placeholder="Escribe una materia por línea" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Imagen</label>
+                <input type="file" name="image" class="form-control" accept="image/*">
             </div>
 
             <button class="btn btn-success">

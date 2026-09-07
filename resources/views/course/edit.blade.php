@@ -5,7 +5,7 @@
 
         <h1>EDITAR CURSO</h1>
 
-        <form action="{{ route('course.update', $course->id) }}" method="POST">
+        <form action="{{ route('course.update', $course->id) }}" method="POST" enctype="multipart/form-data">
 
             @csrf
             @method('PUT')
@@ -78,6 +78,14 @@
             <div class="mb-3">
                 <label>Materias o competencias</label>
                 <textarea name="subjects" class="form-control" rows="4" required>{{ $course->subjects }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Imagen</label>
+                <input type="file" name="image" class="form-control" accept="image/*">
+                @if ($course->image)
+                    <img src="{{ asset('storage/' . $course->image) }}" alt="Imagen de {{ $course->course_number }}" class="mt-2" style="max-width: 180px;">
+                @endif
             </div>
 
             <button class="btn btn-success">

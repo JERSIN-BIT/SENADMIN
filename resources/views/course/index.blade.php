@@ -21,6 +21,7 @@
             <thead>
                 <tr>
                     <th>Programa</th>
+                    <th>Imagen</th>
                     <th>Jornada</th>
                     <th>Área</th>
                     <th>Centro de formación</th>
@@ -37,6 +38,13 @@
                     <tr>
 
                         <td>{{ $course->course_number }}</td>
+                        <td>
+                            @if ($course->image)
+                                <img src="{{ asset('storage/' . $course->image) }}" alt="Imagen de {{ $course->course_number }}" style="max-width: 100px; max-height: 70px;">
+                            @else
+                                Sin imagen
+                            @endif
+                        </td>
                         <td>{{ $course->day }}</td>
                         <td>{{ $course->area->name ?? 'Sin área' }}</td>
                         <td>{{ $course->trainingCenter->name ?? 'Sin centro' }}</td>
@@ -63,7 +71,7 @@
                 @empty
 
                     <tr>
-                        <td colspan="{{ auth()->check() ? 6 : 5 }}" class="text-center">
+                        <td colspan="{{ auth()->check() ? 7 : 6 }}" class="text-center">
                             No hay cursos registrados.
                         </td>
                     </tr>
