@@ -10,14 +10,12 @@ class ComputerController extends Controller
     public function index()
     {
         $computers = Computer::all();
-
         return view('computer.index', compact('computers'));
     }
 
     public function show($id)
     {
         $computer = Computer::findOrFail($id);
-
         return view('computer.show', compact('computer'));
     }
 
@@ -29,7 +27,6 @@ class ComputerController extends Controller
     public function store(Request $request)
     {
         Computer::create($request->all());
-
         return redirect()->route('computer.index');
     }
 
@@ -41,14 +38,29 @@ class ComputerController extends Controller
     public function update(Request $request, Computer $computer)
     {
         $computer->update($request->all());
-
         return redirect()->route('computer.index');
     }
 
     public function destroy(Computer $computer)
     {
         $computer->delete();
-
         return redirect()->route('computer.index');
+    }
+
+    public function apiIndex()
+    {
+        $computers = Computer::all();
+        return response()->json($computers);
+    }
+
+    public function apiStore(Request $request)
+    {
+        $request->validate([
+            'number' => 'required',
+            'brand' => 'required|max:255',
+        ]);
+
+        $computer = Computer::create($request->all());
+        return response()->json($computer, 201);
     }
 }

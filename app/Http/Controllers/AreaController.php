@@ -51,4 +51,22 @@ class AreaController extends Controller
 
         return redirect()->route('area.index');
     }
+
+    public function apiIndex()
+    {
+        $areas = Area::all();
+
+        return response()->json($areas);
+    }
+
+    public function apiStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $area = Area::create($request->all());
+
+        return response()->json($area, 201);
+    }
 }

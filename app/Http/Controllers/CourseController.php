@@ -102,4 +102,29 @@ class CourseController extends Controller
 
         return redirect()->route('course.index');
     }
+
+    public function apiIndex()
+    {
+        $courses = Course::with(['area', 'trainingCenter'])->latest()->get();
+
+        return response()->json($courses);
+    }
+
+    public function apiStore(Request $request)
+    {
+        $request->validate([
+            'course_number' => 'required|string|max:255',
+            'day' => 'required|string|max:255',
+            'area_id' => 'required|exists:areas,id',
+            'training_center_id' => 'required|exists:training_centers,id',
+            'availability_status' => 'required|in:disponible,en curso',
+            'duration' => 'required|string|max:255',
+            'description' => 'required|string',
+            'subjects' => 'required|string',
+        ]);
+
+        $course = Course::create($request->all());
+
+        return response()->json($course, 201);
+    }
 }

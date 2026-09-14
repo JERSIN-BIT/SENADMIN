@@ -59,4 +59,26 @@ class ApprenticeController extends Controller
 
         return redirect()->route('apprentice.index');
     }
+
+    public function apiIndex()
+    {
+        $apprentices = Apprentice::with(['course', 'computer'])->latest()->get();
+
+        return response()->json($apprentices);
+    }
+
+    public function apiStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'cell_number' => 'required|string|max:255',
+            'course_id' => 'required|exists:courses,id',
+            'computer_id' => 'required|exists:computers,id',
+        ]);
+
+        $apprentice = Apprentice::create($request->all());
+
+        return response()->json($apprentice, 201);
+    }
 }

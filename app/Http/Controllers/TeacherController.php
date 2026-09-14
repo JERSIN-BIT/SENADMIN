@@ -59,4 +59,25 @@ class TeacherController extends Controller
 
         return redirect()->route('teacher.index');
     }
+
+    public function apiIndex()
+    {
+        $teachers = Teacher::all();
+
+        return response()->json($teachers);
+    }
+
+    public function apiStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'area_id' => 'required|exists:areas,id',
+            'training_center_id' => 'required|exists:training_centers,id',
+        ]);
+
+        $teacher = Teacher::create($request->all());
+
+        return response()->json($teacher, 201);
+    }
 }

@@ -51,4 +51,23 @@ class TrainingCenterController extends Controller
 
         return redirect()->route('trainingcenter.index');
     }
+
+    public function apiIndex()
+    {
+        $trainingCenters = Training_center::all();
+
+        return response()->json($trainingCenters);
+    }
+
+    public function apiStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+        ]);
+
+        $trainingCenter = Training_center::create($request->all());
+
+        return response()->json($trainingCenter, 201);
+    }
 }
