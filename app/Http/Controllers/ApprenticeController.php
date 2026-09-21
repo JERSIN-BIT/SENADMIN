@@ -81,4 +81,36 @@ class ApprenticeController extends Controller
 
         return response()->json($apprentice, 201);
     }
+
+    public function apiShow($id)
+    {
+        $apprentice = Apprentice::with(['course', 'computer'])->findOrFail($id);
+
+        return response()->json($apprentice);
+    }
+
+    public function apiUpdate(Request $request, $id)
+    {
+        $apprentice = Apprentice::findOrFail($id);
+
+        $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|max:255',
+            'cell_number' => 'sometimes|required|string|max:255',
+            'course_id' => 'sometimes|required|exists:courses,id',
+            'computer_id' => 'sometimes|required|exists:computers,id',
+        ]);
+
+        $apprentice->update($request->all());
+
+        return response()->json($apprentice);
+    }
+
+    public function apiDestroy($id)
+    {
+        $apprentice = Apprentice::findOrFail($id);
+        $apprentice->delete();
+
+        return response()->json(null, 204);
+    }
 }

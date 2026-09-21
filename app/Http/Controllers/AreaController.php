@@ -69,4 +69,32 @@ class AreaController extends Controller
 
         return response()->json($area, 201);
     }
+
+    public function apiShow($id)
+    {
+        $area = Area::findOrFail($id);
+
+        return response()->json($area);
+    }
+
+    public function apiUpdate(Request $request, $id)
+    {
+        $area = Area::findOrFail($id);
+
+        $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+        ]);
+
+        $area->update($request->all());
+
+        return response()->json($area);
+    }
+
+    public function apiDestroy($id)
+    {
+        $area = Area::findOrFail($id);
+        $area->delete();
+
+        return response()->json(null, 204);
+    }
 }

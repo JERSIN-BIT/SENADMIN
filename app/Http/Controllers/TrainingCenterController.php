@@ -70,4 +70,33 @@ class TrainingCenterController extends Controller
 
         return response()->json($trainingCenter, 201);
     }
+
+    public function apiShow($id)
+    {
+        $trainingCenter = Training_center::findOrFail($id);
+
+        return response()->json($trainingCenter);
+    }
+
+    public function apiUpdate(Request $request, $id)
+    {
+        $trainingCenter = Training_center::findOrFail($id);
+
+        $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'location' => 'sometimes|required|string|max:255',
+        ]);
+
+        $trainingCenter->update($request->all());
+
+        return response()->json($trainingCenter);
+    }
+
+    public function apiDestroy($id)
+    {
+        $trainingCenter = Training_center::findOrFail($id);
+        $trainingCenter->delete();
+
+        return response()->json(null, 204);
+    }
 }

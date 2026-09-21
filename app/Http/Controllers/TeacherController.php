@@ -80,4 +80,35 @@ class TeacherController extends Controller
 
         return response()->json($teacher, 201);
     }
+
+    public function apiShow($id)
+    {
+        $teacher = Teacher::findOrFail($id);
+
+        return response()->json($teacher);
+    }
+
+    public function apiUpdate(Request $request, $id)
+    {
+        $teacher = Teacher::findOrFail($id);
+
+        $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|max:255',
+            'area_id' => 'sometimes|required|exists:areas,id',
+            'training_center_id' => 'sometimes|required|exists:training_centers,id',
+        ]);
+
+        $teacher->update($request->all());
+
+        return response()->json($teacher);
+    }
+
+    public function apiDestroy($id)
+    {
+        $teacher = Teacher::findOrFail($id);
+        $teacher->delete();
+
+        return response()->json(null, 204);
+    }
 }

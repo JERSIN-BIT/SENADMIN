@@ -127,4 +127,39 @@ class CourseController extends Controller
 
         return response()->json($course, 201);
     }
+
+    public function apiShow($id)
+    {
+        $course = Course::with(['area', 'trainingCenter'])->findOrFail($id);
+
+        return response()->json($course);
+    }
+
+    public function apiUpdate(Request $request, $id)
+    {
+        $course = Course::findOrFail($id);
+
+        $request->validate([
+            'course_number' => 'sometimes|required|string|max:255',
+            'day' => 'sometimes|required|string|max:255',
+            'area_id' => 'sometimes|required|exists:areas,id',
+            'training_center_id' => 'sometimes|required|exists:training_centers,id',
+            'availability_status' => 'sometimes|required|in:disponible,en curso',
+            'duration' => 'sometimes|required|string|max:255',
+            'description' => 'sometimes|required|string',
+            'subjects' => 'sometimes|required|string',
+        ]);
+
+        $course->update($request->all());
+
+        return response()->json($course);
+    }
+
+    public function apiDestroy($id)
+    {
+        $course = Course::findOrFail($id);
+        $course->delete();
+
+        return response()->json(null, 204);
+    }
 }

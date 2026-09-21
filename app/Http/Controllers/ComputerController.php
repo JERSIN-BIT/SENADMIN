@@ -63,4 +63,33 @@ class ComputerController extends Controller
         $computer = Computer::create($request->all());
         return response()->json($computer, 201);
     }
+
+    public function apiShow($id)
+    {
+        $computer = Computer::findOrFail($id);
+
+        return response()->json($computer);
+    }
+
+    public function apiUpdate(Request $request, $id)
+    {
+        $computer = Computer::findOrFail($id);
+
+        $request->validate([
+            'number' => 'sometimes|required',
+            'brand' => 'sometimes|required|max:255',
+        ]);
+
+        $computer->update($request->all());
+
+        return response()->json($computer);
+    }
+
+    public function apiDestroy($id)
+    {
+        $computer = Computer::findOrFail($id);
+        $computer->delete();
+
+        return response()->json(null, 204);
+    }
 }
