@@ -7,89 +7,87 @@ use App\Models\Computer;
 
 class ComputerController extends Controller
 {
+    /* 
+    public function consultaAprendiz(){
+        $compu = Computer::find(3);
+        return response()->json($compu->aprendices, 200);
+    } 
+    */
+
+    // MOSTRAR TODOS LOS DATOS
     public function index()
     {
         $computers = Computer::all();
-        return view('computer.index', compact('computers'));
+        return response()->json($computers, 200);
     }
 
-    public function show($id)
+    // GUARDAR DATOS (Con soporte para Cloudinary)
+    public function store(Request $request) 
     {
-        $computer = Computer::findOrFail($id);
-        return view('computer.show', compact('computer'));
-    }
-
-    public function create()
-    {
-        return view('computer.create');
-    }
-
-    public function store(Request $request)
-    {
-        Computer::create($request->all());
-        return redirect()->route('computer.index');
-    }
-
-    public function edit(Computer $computer)
-    {
-        return view('computer.edit', compact('computer'));
-    }
-
-    public function update(Request $request, Computer $computer)
-    {
-        $computer->update($request->all());
-        return redirect()->route('computer.index');
-    }
-
-    public function destroy(Computer $computer)
-    {
-        $computer->delete();
-        return redirect()->route('computer.index');
-    }
-
-    public function apiIndex()
-    {
-        $computers = Computer::all();
-        return response()->json($computers);
-    }
-
-    public function apiStore(Request $request)
-    {
-        $request->validate([
-            'number' => 'required',
-            'brand' => 'required|max:255',
+        $validated = $request->validate([
+            'number' => 'required|numeric',
+            'brand' => 'required|string|max:225',
+            'urlFoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $computer = Computer::create($request->all());
-        return response()->json($computer, 201);
+        $data = $validated;
+
+        // Subida de imagen a Cloudinary si se adjunta un archivo
+        if ($request->hasFile('urlFoto')) {
+            $uploadedFileUrl = $request->file('urlFoto')->storeOnCloudinary('computadores')->getSecureUrl();
+            $data['urlFoto'] = $uploadedFileUrl;
+        }
+
+        $computer = Computer::create($data);
+
+        return response()->json([
+            'message' => 'Computador creado exitosamente',
+            'data' => $computer
+        ], 201);
     }
 
-    public function apiShow($id)
+    // MOSTRAR UN REGISTRO
+    public function show($id) 
+    {
+        $computer = Computer::findOrFail($id);
+        return response()->json($computer, 200);
+    }
+
+    // ACTUALIZAR UN REGISTRO (Con soporte para Cloudinary)
+    public function update(Request $request, $id) 
     {
         $computer = Computer::findOrFail($id);
 
-        return response()->json($computer);
-    }
-
-    public function apiUpdate(Request $request, $id)
-    {
-        $computer = Computer::findOrFail($id);
-
-        $request->validate([
-            'number' => 'sometimes|required',
-            'brand' => 'sometimes|required|max:255',
+        $validated = $request->validate([
+            'number' => 'required|numeric',
+            'brand' => 'required|string|max:225',
+            'urlFoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $computer->update($request->all());
+        $data = $validated;
 
-        return response()->json($computer);
+        // Actualizar la foto en Cloudinary si se sube una nueva
+        if ($request->hasFile('urlFoto')) {
+            $uploadedFileUrl = $request->file('urlFoto')->storeOnCloudinary('computadores')->getSecureUrl();
+            $data['urlFoto'] = $uploadedFileUrl;
+        }
+
+        $computer->update($data);
+
+        return response()->json([
+            'message' => 'Computador actualizado exitosamente',
+            'data' => $computer
+        ], 200);
     }
 
-    public function apiDestroy($id)
+    // ELIMINAR UN REGISTRO
+    public function destroy($id) 
     {
         $computer = Computer::findOrFail($id);
         $computer->delete();
 
-        return response()->json(null, 204);
+        return response()->json([
+            'message' => 'Eliminado correctamente'
+        ], 200);
     }
 }

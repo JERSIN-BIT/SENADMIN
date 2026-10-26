@@ -4,113 +4,104 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Apprentice;
-use App\Models\Course;
-use App\Models\Computer;
 
 class ApprenticeController extends Controller
 {
     public function index()
     {
-        $apprentices = Apprentice::all();
-
-        return view('apprentice.index', compact('apprentices'));
-    }
-
-    public function show($id)
-    {
-        $apprentice = Apprentice::findOrFail($id);
-
-        return view('apprentice.show', compact('apprentice'));
-    }
-
-    public function create()
-    {
-        $courses = Course::all();
-        $computers = Computer::all();
-
-        return view('apprentice.create', compact('courses', 'computers'));
+        $apprentices = Apprentice::with(['course', 'computer'])
+            ->latest()
+            ->get();
+        return response()->json($apprentices, 200);
     }
 
     public function store(Request $request)
     {
-        Apprentice::create($request->all());
-
-        return redirect()->route('apprentice.index');
-    }
-
-    public function edit(Apprentice $apprentice)
-    {
-        $courses = Course::all();
-        $computers = Computer::all();
-
-        return view('apprentice.edit', compact('apprentice', 'courses', 'computers'));
-    }
-
-    public function update(Request $request, Apprentice $apprentice)
-    {
-        $apprentice->update($request->all());
-
-        return redirect()->route('apprentice.index');
-    }
-
-    public function destroy(Apprentice $apprentice)
-    {
-        $apprentice->delete();
-
-        return redirect()->route('apprentice.index');
-    }
-
-    public function apiIndex()
-    {
-        $apprentices = Apprentice::with(['course', 'computer'])->latest()->get();
-
-        return response()->json($apprentices);
-    }
-
-    public function apiStore(Request $request)
-    {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'cell_number' => 'required|string|max:255',
             'course_id' => 'required|exists:courses,id',
             'computer_id' => 'required|exists:computers,id',
+            'urlFoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validación de imagen
         ]);
 
-        $apprentice = Apprentice::create($request->all());
+        $data = $validated;
 
-        return response()->json($apprentice, 201);
+        // Subida de foto a Cloudinary si se adjunta
+        if ($request->hasFile('urlFoto')) {
+            $uploadedFileUrl = $request->file('urlFoto')->storeOnCloudinary('aprendices')->getSecureUrl();
+            $data['urlFoto'] = $uploadedFileUrl;
+        }
+
+        $apprentice = Apprentice::create($data);
+
+        return response()->json(
+            [
+                'message' => 'Aprendiz creado exitosamente',
+                'data' => $apprentice,
+            ],
+            201,
+        );
     }
 
-    public function apiShow($id)
+    public function show($id)
     {
-        $apprentice = Apprentice::with(['course', 'computer'])->findOrFail($id);
+        $apprentice = Apprentice::with(['course', 'computer'])->find($id);
 
-        return response()->json($apprentice);
+        if (!$apprentice) {
+            return response()->json(['message' => 'Aprendiz no encontrado'], 404);
+        }
+
+        return response()->json($apprentice, 200);
     }
 
-    public function apiUpdate(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $apprentice = Apprentice::findOrFail($id);
+        $apprentice = Apprentice::find($id);
 
-        $request->validate([
+        if (!$apprentice) {
+            return response()->json(['message' => 'Aprendiz no encontrado'], 404);
+        }
+
+        $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
             'email' => 'sometimes|required|email|max:255',
             'cell_number' => 'sometimes|required|string|max:255',
             'course_id' => 'sometimes|required|exists:courses,id',
             'computer_id' => 'sometimes|required|exists:computers,id',
+            'urlFoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $apprentice->update($request->all());
+        $data = $validated;
 
-        return response()->json($apprentice);
+        // Actualizar foto en Cloudinary si se sube una nueva
+        if ($request->hasFile('urlFoto')) {
+            $uploadedFileUrl = $request->file('urlFoto')->storeOnCloudinary('aprendices')->getSecureUrl();
+            $data['urlFoto'] = $uploadedFileUrl;
+        }
+
+        $apprentice->update($data);
+
+        return response()->json(
+            [
+                'message' => 'Aprendiz actualizado exitosamente',
+                'data' => $apprentice,
+            ],
+            200,
+        );
     }
 
-    public function apiDestroy($id)
+    public function destroy($id)
     {
-        $apprentice = Apprentice::findOrFail($id);
+        $apprentice = Apprentice::find($id);
+
+        if (!$apprentice) {
+            return response()->json(['message' => 'Aprendiz no encontrado'], 404);
+        }
+
         $apprentice->delete();
 
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Aprendiz eliminado exitosamente'], 200);
     }
 }

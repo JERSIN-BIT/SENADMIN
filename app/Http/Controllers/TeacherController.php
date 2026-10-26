@@ -4,111 +4,80 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Teacher;
-use App\Models\Area;
-use App\Models\Training_center;
 
 class TeacherController extends Controller
 {
     public function index()
     {
         $teachers = Teacher::all();
+        return response()->json($teachers, 200);
+    }
 
-        return view('teacher.index', compact('teachers'));
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'urlFoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $data = $validated;
+
+        if ($request->hasFile('urlFoto')) {
+            $uploadedFileUrl = $request->file('urlFoto')->storeOnCloudinary('instructores')->getSecureUrl();
+            $data['urlFoto'] = $uploadedFileUrl;
+        }
+
+        $teacher = Teacher::create($data);
+
+        return response()->json(
+            [
+                'message' => 'Instructor creado exitosamente',
+                'data' => $teacher,
+            ],
+            201,
+        );
     }
 
     public function show($id)
     {
         $teacher = Teacher::findOrFail($id);
-
-        return view('teacher.show', compact('teacher'));
+        return response()->json($teacher, 200);
     }
 
-    public function create()
-    {
-        $areas = Area::all();
-        $training_centers = Training_center::all();
-
-        return view('teacher.create', compact('areas', 'training_centers'));
-    }
-
-    public function store(Request $request)
-    {
-        Teacher::create($request->all());
-
-        return redirect()->route('teacher.index');
-    }
-
-    public function edit(Teacher $teacher)
-    {
-        $areas = Area::all();
-        $training_centers = Training_center::all();
-
-        return view('teacher.edit', compact('teacher', 'areas', 'training_centers'));
-    }
-
-    public function update(Request $request, Teacher $teacher)
-    {
-        $teacher->update($request->all());
-
-        return redirect()->route('teacher.index');
-    }
-
-    public function destroy(Teacher $teacher)
-    {
-        $teacher->delete();
-
-        return redirect()->route('teacher.index');
-    }
-
-    public function apiIndex()
-    {
-        $teachers = Teacher::all();
-
-        return response()->json($teachers);
-    }
-
-    public function apiStore(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'area_id' => 'required|exists:areas,id',
-            'training_center_id' => 'required|exists:training_centers,id',
-        ]);
-
-        $teacher = Teacher::create($request->all());
-
-        return response()->json($teacher, 201);
-    }
-
-    public function apiShow($id)
+    public function update(Request $request, $id)
     {
         $teacher = Teacher::findOrFail($id);
 
-        return response()->json($teacher);
-    }
-
-    public function apiUpdate(Request $request, $id)
-    {
-        $teacher = Teacher::findOrFail($id);
-
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
             'email' => 'sometimes|required|email|max:255',
-            'area_id' => 'sometimes|required|exists:areas,id',
-            'training_center_id' => 'sometimes|required|exists:training_centers,id',
+            'urlFoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $teacher->update($request->all());
+        $data = $validated;
 
-        return response()->json($teacher);
+        if ($request->hasFile('urlFoto')) {
+            $uploadedFileUrl = $request->file('urlFoto')->storeOnCloudinary('instructores')->getSecureUrl();
+            $data['urlFoto'] = $uploadedFileUrl;
+        }
+
+        $teacher->update($data);
+
+        return response()->json(
+            [
+                'message' => 'Instructor actualizado exitosamente',
+                'data' => $teacher,
+            ],
+            200,
+        );
     }
 
-    public function apiDestroy($id)
+    public function destroy($id)
     {
         $teacher = Teacher::findOrFail($id);
         $teacher->delete();
 
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Eliminado correctamente'], 200);
     }
 }

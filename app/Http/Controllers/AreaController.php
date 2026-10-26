@@ -7,94 +7,82 @@ use App\Models\Area;
 
 class AreaController extends Controller
 {
+    /*
+    // Métodos opcionales de prueba por si los necesitas después:
+    public function consultaProfe(){
+        $area = Area::find(2);
+        return response()->json($area->teachers, 200);
+    }
+
+    public function consultasCurso(){
+        $area = Area::find(1);
+        return response()->json($area->courses, 200);
+    }
+    */
+
+    // MOSTRAR TODOS LOS DATOS
     public function index()
     {
         $areas = Area::all();
-
-        return view('area.index', compact('areas'));
+        return response()->json($areas, 200);
     }
 
+    // GUARDAR DATOS
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+        ]);
+
+        $area = Area::create($validated);
+
+        return response()->json(
+            [
+                'message' => 'Área creada exitosamente',
+                'data' => $area,
+            ],
+            201,
+        );
+    }
+
+    // MOSTRAR UN REGISTRO
     public function show($id)
     {
         $area = Area::findOrFail($id);
-
-        return view('area.show', compact('area'));
+        return response()->json($area, 200);
     }
 
-    public function create()
-    {
-        return view('area.create');
-    }
-
-    public function store(Request $request)
-    {
-        Area::create($request->all());
-
-        return redirect()->route('area.index');
-    }
-
-    public function edit(Area $area)
-    {
-        return view('area.edit', compact('area'));
-    }
-
-    public function update(Request $request, Area $area)
-    {
-        $area->update($request->all());
-
-        return redirect()->route('area.index');
-    }
-
-    public function destroy(Area $area)
-    {
-        $area->delete();
-
-        return redirect()->route('area.index');
-    }
-
-    public function apiIndex()
-    {
-        $areas = Area::all();
-
-        return response()->json($areas);
-    }
-
-    public function apiStore(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
-
-        $area = Area::create($request->all());
-
-        return response()->json($area, 201);
-    }
-
-    public function apiShow($id)
+    // ACTUALIZAR UN REGISTRO
+    public function update(Request $request, $id)
     {
         $area = Area::findOrFail($id);
 
-        return response()->json($area);
-    }
-
-    public function apiUpdate(Request $request, $id)
-    {
-        $area = Area::findOrFail($id);
-
-        $request->validate([
-            'name' => 'sometimes|required|string|max:255',
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
         ]);
 
-        $area->update($request->all());
+        $area->update($validated);
 
-        return response()->json($area);
+        return response()->json(
+            [
+                'message' => 'Área actualizada exitosamente',
+                'data' => $area,
+            ],
+            200,
+        );
     }
 
-    public function apiDestroy($id)
+    // ELIMINAR UN REGISTRO
+    public function destroy($id)
     {
         $area = Area::findOrFail($id);
         $area->delete();
 
-        return response()->json(null, 204);
+        return response()->json(
+            [
+                'message' => 'Eliminado correctamente',
+            ],
+            200,
+        );
     }
 }
